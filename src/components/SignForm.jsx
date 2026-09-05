@@ -17,14 +17,14 @@ const DEPARTMENTS = [
   'Alumni (Graduated Batch)'
 ];
 
-const YEARS = ['2025 (Final Year)', '2024 (Graduated)', '2026 (3rd Year)', '2027 (2nd Year)'];
+const YEARS = ['2026 (Final Year)', '2025 (Graduated)', '2027 (3rd Year)', '2028 (2nd Year)'];
 
 export default function SignForm({ petitionId, onSignedSuccess, userAlreadySigned }) {
   const [formData, setFormData] = useState({
     name: '',
     usn: '',
     department: DEPARTMENTS[0],
-    year: '2025',
+    year: '2026',
     comment: '',
     isAnonymous: true // default to anonymous to reduce fear of retribution
   });

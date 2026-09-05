@@ -70,7 +70,7 @@ Forward to all RRCE class groups & batchmates!`;
           Mobilize & Escalate Action Kit
         </h3>
         <p className="text-xs sm:text-sm text-slate-400 mt-1">
-          Petitions succeed through numbers. Help spread the word across all 2025/2026 RRCE engineering branches.
+          Petitions succeed through numbers. Help spread the word across all 2026 RRCE engineering branches.
         </p>
       </div>
 

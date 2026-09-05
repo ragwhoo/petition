@@ -111,7 +111,7 @@ router.post('/petitions/:id/sign', signLimiter, (req, res) => {
     name: sanitizeString(name, FIELD_LIMITS.name) || (isAnonymous ? 'Anonymous Student' : 'RRCE Student'),
     usn: cleanUsn,
     department: sanitizeString(department, FIELD_LIMITS.department) || 'General Engineering',
-    year: sanitizeString(year, FIELD_LIMITS.year) || '2025',
+    year: sanitizeString(year, FIELD_LIMITS.year) || '2026',
     comment: sanitizeString(comment, FIELD_LIMITS.comment),
     isAnonymous: Boolean(isAnonymous),
     createdAt: new Date().toISOString(),

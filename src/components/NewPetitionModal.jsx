@@ -201,7 +201,7 @@ export default function NewPetitionModal({ isOpen, onClose, onCreated }) {
             </label>
             <input
               type="text"
-              placeholder="e.g. Concerned RRCE 2025 Students or Anonymous Forum"
+              placeholder="e.g. Concerned RRCE 2026 Students or Anonymous Forum"
               value={authorName}
               onChange={(e) => setAuthorName(e.target.value)}
               className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-rose-500"

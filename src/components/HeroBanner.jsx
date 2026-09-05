@@ -17,7 +17,7 @@ export default function HeroBanner({ petition, onScrollToSign }) {
         <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-rose-500/20 text-rose-300 border border-rose-500/40 animate-pulse-glow">
             <ShieldAlert className="w-3.5 h-3.5 text-rose-400" />
-            Urgent Student Action • 2025 Convocation
+            Urgent Student Action • 2026 Convocation
           </span>
           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-slate-900 text-slate-300 border border-slate-800">
             <Building2 className="w-3 h-3 text-amber-400" />

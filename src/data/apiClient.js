@@ -2,8 +2,10 @@
 // This guarantees that the site works seamlessly locally, on Vercel serverless, and even offline!
 import { clientSeed } from './clientSeed.js';
 
-const STORAGE_KEY = 'rrce_petitions_store_v1';
-const USER_SIGNATURES_KEY = 'rrce_user_signed_usns';
+// Versioned keys: bump the version to invalidate stale localStorage caches
+// (e.g. after a manual signature reset).
+const STORAGE_KEY = 'rrce_petitions_store_v2';
+const USER_SIGNATURES_KEY = 'rrce_user_signed_usns_v2';
 
 // Client-safe USN format for validation in forms. Mirrors the server regex.
 export const USN_REGEX = /^1RR\d{2}[A-Z]{2}\d{3}$/;
@@ -164,7 +166,7 @@ export async function signPetition(petitionId, formData) {
     name: formData.name && formData.name.trim() ? formData.name.trim() : (formData.isAnonymous ? 'Anonymous Student' : 'RRCE Student'),
     usn: cleanUsn,
     department: formData.department || 'General Engineering',
-    year: formData.year || '2025',
+    year: formData.year || '2026',
     comment: formData.comment ? formData.comment.trim() : '',
     isAnonymous: Boolean(formData.isAnonymous),
     createdAt: new Date().toISOString(),

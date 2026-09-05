@@ -28,7 +28,7 @@ export default function App() {
     name: '',
     usn: '',
     department: DEPARTMENTS[0],
-    year: '2025',
+    year: '2026',
     comment: '',
     isAnonymous: true
   });
@@ -392,10 +392,10 @@ export default function App() {
                     onChange={(e) => setFormData({ ...formData, year: e.target.value })}
                     className="w-full border-2 border-black p-2.5 text-base sm:text-xs focus:outline-none focus:ring-1 focus:ring-black bg-white"
                   >
-                    <option value="2025">2025 (Final Year)</option>
-                    <option value="2024">2024 (Graduated)</option>
-                    <option value="2026">2026 (3rd Year)</option>
-                    <option value="2027">2027 (2nd Year)</option>
+                    <option value="2026">2026 (Final Year)</option>
+                    <option value="2025">2025 (Graduated)</option>
+                    <option value="2027">2027 (3rd Year)</option>
+                    <option value="2028">2028 (2nd Year)</option>
                   </select>
                 </div>
               </div>
