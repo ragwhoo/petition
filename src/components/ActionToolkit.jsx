@@ -28,18 +28,28 @@ Forward to all RRCE class groups & batchmates!`;
     setTimeout(() => setCopiedLink(false), 2000);
   };
 
+  const csvSafe = (value) => {
+    let s = String(value ?? '');
+    // Neutralize CSV formula injection: fields starting with = + - @ or control
+    // chars are treated as formulas by Excel/LibreOffice. Prefix with a quote.
+    if (/^[\t\r\n=+\-@]/.test(s.trim())) {
+      s = "'" + s;
+    }
+    return `"${s.replace(/"/g, '""')}"`;
+  };
+
   const handleExportCSV = () => {
     if (!petition || !petition.signatures) return;
     
     const headers = ['ID', 'Student Name / Status', 'Department', 'Batch Year', 'Masked USN', 'Testimony / Reason', 'Signed Date'];
     const rows = petition.signatures.map(s => [
-      s.id,
-      s.isAnonymous ? 'Anonymous Student' : `"${s.name.replace(/"/g, '""')}"`,
-      `"${s.department || ''}"`,
-      s.year || '',
-      s.maskedUsn || '',
-      `"${(s.comment || '').replace(/"/g, '""')}"`,
-      new Date(s.createdAt).toISOString()
+      csvSafe(s.id),
+      csvSafe(s.isAnonymous ? 'Anonymous Student' : s.name),
+      csvSafe(s.department || ''),
+      csvSafe(s.year || ''),
+      csvSafe(s.maskedUsn || ''),
+      csvSafe(s.comment || ''),
+      csvSafe(new Date(s.createdAt).toISOString())
     ]);
 
     const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');

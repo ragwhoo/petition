@@ -1,15 +1,5 @@
-import express from 'express';
-import cors from 'cors';
-import apiRouter from '../server/apiRouter.js';
+import { createApp } from '../server/app.js';
 
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-// Routes mounted at root because Vercel routes /api to this serverless function
-app.use('/api', apiRouter);
-// Also support direct route without /api prefix if rewritten
-app.use('/', apiRouter);
-
-export default app;
+// Vercel routes /api to this serverless function. The router is mounted at
+// /api in createApp(), so the original request path is preserved.
+export default createApp();

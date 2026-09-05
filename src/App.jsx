@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchPetitionDetails, signPetition, getUserSignedStatus } from './data/apiClient';
+import { fetchPetitionDetails, signPetition, getUserSignedStatus, isValidUsn } from './data/apiClient';
 
 const DEPARTMENTS = [
   'Computer Science & Engineering',
@@ -22,6 +22,7 @@ export default function App() {
   const [signed, setSigned] = useState(false);
   const [displayCount, setDisplayCount] = useState(0);
   const [isNumberPulsing, setIsNumberPulsing] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -95,8 +96,8 @@ export default function App() {
     e.preventDefault();
     setFormError(null);
 
-    if (!formData.usn.trim() || formData.usn.trim().length < 5) {
-      setFormError('Please enter your valid RRCE USN (e.g. 1RR21CS001).');
+    if (!isValidUsn(formData.usn)) {
+      setFormError('Please enter a valid RRCE USN (e.g. 1RR21CS001).');
       return;
     }
 

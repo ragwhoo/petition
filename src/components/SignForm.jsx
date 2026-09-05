@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { ShieldCheck, Lock, Send, CheckCircle, AlertCircle, Share2, Sparkles } from 'lucide-react';
-import { signPetition } from '../data/apiClient';
+import { signPetition, isValidUsn } from '../data/apiClient';
 
 const DEPARTMENTS = [
   'Computer Science & Engg (CSE)',
@@ -38,8 +38,8 @@ export default function SignForm({ petitionId, onSignedSuccess, userAlreadySigne
     setError(null);
 
     // Validation
-    if (!formData.usn.trim() || formData.usn.trim().length < 5) {
-      setError('Please enter your valid RRCE USN / Roll Number (e.g. 1RR21CS001).');
+    if (!isValidUsn(formData.usn)) {
+      setError('Please enter a valid RRCE USN (e.g. 1RR21CS001).');
       return;
     }
 

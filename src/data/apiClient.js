@@ -1,9 +1,23 @@
 // Robust API client with automatic LocalStorage synchronization fallback
 // This guarantees that the site works seamlessly locally, on Vercel serverless, and even offline!
-import { initialPetitions } from '../../server/data/defaultPetitions.js';
+import { clientSeed } from './clientSeed.js';
 
-const STORAGE_KEY = 'rrce_petitions_clean_v2';
+const STORAGE_KEY = 'rrce_petitions_store_v1';
 const USER_SIGNATURES_KEY = 'rrce_user_signed_usns';
+
+// Client-safe USN format for validation in forms. Mirrors the server regex.
+export const USN_REGEX = /^1RR\d{2}[A-Z]{2}\d{3}$/;
+
+export function isValidUsn(value) {
+  return typeof value === 'string' && USN_REGEX.test(value.trim().toUpperCase());
+}
+
+function maskUsn(usn) {
+  if (usn && usn.length >= 6) {
+    return usn.substring(0, usn.length - 3) + '***';
+  }
+  return usn || '';
+}
 
 // Initialize local storage if needed
 function getLocalStore() {
@@ -13,7 +27,7 @@ function getLocalStore() {
   } catch (e) {
     console.warn('LocalStorage not accessible', e);
   }
-  return initialPetitions;
+  return clientSeed;
 }
 
 function saveLocalStore(data) {
@@ -92,16 +106,12 @@ export async function fetchPetitionDetails(id) {
   if (!petition) throw new Error('Petition not found');
 
   const safeSignatures = petition.signatures.map(s => {
-    let maskedUsn = s.usn;
-    if (s.usn && s.usn.length >= 6) {
-      maskedUsn = s.usn.substring(0, s.usn.length - 3) + '***';
-    }
     return {
       id: s.id,
       name: s.isAnonymous ? 'Anonymous RRCE Student' : s.name,
       department: s.department,
       year: s.year,
-      maskedUsn,
+      maskedUsn: s.maskedUsn || maskUsn(s.usn),
       comment: s.comment,
       isAnonymous: s.isAnonymous,
       createdAt: s.createdAt,
@@ -165,10 +175,7 @@ export async function signPetition(petitionId, formData) {
   saveLocalStore(store);
   markUserSigned(petitionId, cleanUsn);
 
-  let maskedUsn = cleanUsn;
-  if (cleanUsn.length >= 6) {
-    maskedUsn = cleanUsn.substring(0, cleanUsn.length - 3) + '***';
-  }
+  const maskedUsn = maskUsn(cleanUsn);
 
   return {
     success: true,
