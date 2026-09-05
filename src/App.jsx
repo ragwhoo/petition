@@ -21,6 +21,9 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [signed, setSigned] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [displayCount, setDisplayCount] = useState(1); // Starts at 0001
+  const [isNumberPulsing, setIsNumberPulsing] = useState(false);
+
   const [formData, setFormData] = useState({
     name: '',
     usn: '',
@@ -60,6 +63,36 @@ export default function App() {
     return () => clearInterval(timer);
   }, []);
 
+  // Smooth live tick-up animation starting from 0001
+  useEffect(() => {
+    if (!petition?.signatures?.length) return;
+    const target = petition.signatures.length;
+    if (target <= 1) {
+      setDisplayCount(1);
+      return;
+    }
+
+    let start = 1;
+    const duration = 1200; // 1.2s smooth count-up
+    const startTime = performance.now();
+
+    const animate = (now) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 4);
+      const current = Math.round(start + (target - start) * ease);
+      setDisplayCount(current);
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        setDisplayCount(target);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [petition?.signatures?.length]);
+
   const handleSign = async (e) => {
     e.preventDefault();
     setFormError(null);
@@ -79,11 +112,14 @@ export default function App() {
       const res = await signPetition(petitionId, formData);
       setSigned(true);
       if (res.data) {
+        setIsNumberPulsing(true);
+        setTimeout(() => setIsNumberPulsing(false), 800);
         setPetition(prev => ({
           ...prev,
           signatures: [res.data.signature, ...(prev?.signatures || [])],
           totalSignatures: res.data.totalSignatures
         }));
+        setDisplayCount(res.data.totalSignatures);
       }
     } catch (err) {
       setFormError(err.message || 'Error recording signature.');
@@ -120,61 +156,66 @@ export default function App() {
 
   const signatureCount = petition?.signatures?.length || 0;
   const targetCount = petition?.targetSignatures || 500;
-  const percentage = Math.min(100, Math.round((signatureCount / targetCount) * 100));
+  const percentage = Math.min(100, Math.round((displayCount / targetCount) * 100));
+
+  // Split into 4 digits: starts as ['0', '0', '0', '1']
+  const digits = String(displayCount).padStart(4, '0').split('');
 
   return (
     <div className="min-h-screen bg-white text-black font-sans leading-relaxed pb-24 sm:pb-12">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
 
-        {/* HERO SECTION: Ticker along with Necessary Context */}
-        <section className="border-2 border-black p-5 sm:p-7 mb-7 bg-white">
-          <div className="flex items-center justify-between gap-2 border-b border-black pb-3 mb-4">
+        {/* HERO SECTION: Extremely Big 4-Digit Ticker + Necessary Context */}
+        <section className="border-3 border-black p-5 sm:p-7 mb-7 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <div className="flex items-center justify-between gap-2 border-b-2 border-black pb-3 mb-4">
             <div className="flex items-center gap-2">
-              <span className="inline-block w-2.5 h-2.5 rounded-full bg-black animate-ping"></span>
-              <span className="text-[11px] sm:text-xs uppercase tracking-wider font-bold text-black font-mono">
-                RRCE Student Representation • Mysore Road
+              <span className="inline-block w-3 h-3 rounded-full bg-black animate-ping"></span>
+              <span className="text-[11px] sm:text-xs uppercase tracking-wider font-extrabold text-black font-mono">
+                Live Student Petition • RRCE
               </span>
             </div>
-            <span className="text-[11px] font-mono text-gray-500">
+            <span className="text-[11px] font-mono font-semibold text-gray-700">
               To: Principal Dr. R. Balakrishna
             </span>
           </div>
 
-          <h1 className="text-xl sm:text-2xl font-extrabold text-black leading-snug mb-3">
+          <h1 className="text-xl sm:text-2xl font-black text-black leading-snug mb-3">
             Stop Mandatory ₹1,000 Gown Fee & Demand Transparency for Alumni Association Funds
           </h1>
 
-          <p className="text-xs sm:text-sm text-gray-700 leading-relaxed mb-6">
+          <p className="text-xs sm:text-sm text-gray-700 leading-relaxed mb-4">
             Students at RajaRajeswari College of Engineering (RRCE) are being asked to pay a mandatory <strong>₹1,000</strong> for a convocation gown that will only be used for 1–2 hours during photos. Having already paid alumni fees with zero breakdown or accounting, we respectfully appeal to Principal Dr. R. Balakrishna and the college administration to make gowns optional and provide transparency on prior funds.
           </p>
 
-          {/* Integrated Live Ticker Box */}
-          <div className="border border-black p-4 bg-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <span className="text-[11px] uppercase tracking-wider font-bold text-gray-600 block">
-                Live Verified Signatures
-              </span>
-              <div className="flex items-baseline gap-2 mt-0.5">
-                <span className="text-4xl sm:text-5xl font-extrabold font-mono text-black">
-                  {signatureCount}
-                </span>
-                <span className="text-xs sm:text-sm font-semibold text-gray-600">
-                  / {targetCount} Students Signed
-                </span>
-              </div>
+          {/* THE EXTREMELY BIG 4-DIGIT TICKER (starts as 0001) */}
+          <div className="border-3 border-black p-4 sm:p-6 bg-gray-50 my-4 text-center">
+            <div className="text-xs uppercase font-extrabold tracking-widest text-black font-mono mb-3">
+              Verified Student Signatures
             </div>
 
-            <div className="w-full sm:w-56">
-              <div className="flex justify-between items-center text-xs font-mono text-gray-700 mb-1">
-                <span>Goal Progress:</span>
-                <strong>{percentage}%</strong>
-              </div>
-              <div className="w-full h-3.5 border border-black bg-white p-0.5">
+            {/* 4 Huge Individual Digit Boxes */}
+            <div className={`flex items-center justify-center gap-2 sm:gap-3.5 my-2 transition-transform duration-200 ${isNumberPulsing ? 'scale-105' : ''}`}>
+              {digits.map((digit, idx) => (
                 <div
-                  className="h-full bg-black transition-all duration-500"
-                  style={{ width: `${percentage}%` }}
-                ></div>
-              </div>
+                  key={idx}
+                  className="w-16 xs:w-18 sm:w-24 md:w-28 h-22 xs:h-26 sm:h-32 md:h-36 border-3 sm:border-4 border-black bg-white flex items-center justify-center font-mono font-black text-5xl xs:text-6xl sm:text-7xl md:text-8xl text-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] sm:shadow-[5px_5px_0px_0px_rgba(0,0,0,1)]"
+                >
+                  {digit}
+                </div>
+              ))}
+            </div>
+
+            {/* Target & Progress Bar */}
+            <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-1 text-xs font-mono text-gray-800 max-w-md mx-auto pt-3 border-t-2 border-black">
+              <span className="font-bold">Goal: 0500 Signatures</span>
+              <span className="font-black text-black">{percentage}% of Target Reached</span>
+            </div>
+
+            <div className="w-full h-3.5 border-2 border-black bg-white p-0.5 mt-2 max-w-md mx-auto">
+              <div
+                className="h-full bg-black transition-all duration-500"
+                style={{ width: `${percentage}%` }}
+              ></div>
             </div>
           </div>
 
@@ -183,14 +224,14 @@ export default function App() {
             <button
               type="button"
               onClick={scrollToSign}
-              className="flex-1 py-3 px-5 bg-black text-white text-xs font-bold uppercase tracking-wider hover:bg-gray-800 active:scale-95 transition text-center"
+              className="flex-1 py-3.5 px-5 bg-black text-white text-xs font-bold uppercase tracking-wider hover:bg-gray-800 active:scale-95 transition text-center cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
             >
-              Sign This Petition ↓
+              Add Your Signature Below ↓
             </button>
             <button
               type="button"
               onClick={handleShare}
-              className="py-3 px-5 border-2 border-black text-black text-xs font-bold uppercase tracking-wider hover:bg-gray-100 active:scale-95 transition text-center"
+              className="py-3.5 px-5 border-2 border-black text-black text-xs font-bold uppercase tracking-wider hover:bg-gray-100 active:scale-95 transition text-center cursor-pointer"
             >
               Share on WhatsApp 💬
             </button>
@@ -432,9 +473,9 @@ export default function App() {
 
       {/* Floating Sticky Mobile Quick Action Bar */}
       <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t-2 border-black p-2.5 px-4 flex items-center justify-between shadow-2xl">
-        <div className="flex items-baseline gap-1.5">
-          <span className="text-sm font-extrabold font-mono text-black">{signatureCount}</span>
-          <span className="text-[11px] text-gray-500 font-medium">signed</span>
+        <div className="flex items-baseline gap-1.5 font-mono">
+          <span className="text-base font-black text-black">{String(displayCount).padStart(4, '0')}</span>
+          <span className="text-[11px] text-gray-500">signed</span>
         </div>
         <div className="flex items-center gap-2">
           <button
