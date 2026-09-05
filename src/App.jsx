@@ -126,48 +126,50 @@ export default function App() {
     <div className="min-h-screen bg-white text-black font-sans leading-relaxed pb-24 sm:pb-12">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
 
-        {/* Document Header */}
-        <header className="border-b-2 border-black pb-5 mb-6 text-left">
-          <div className="inline-block border border-black px-2 py-0.5 text-[10px] sm:text-xs font-mono uppercase tracking-wider mb-2">
-            RRCE Student Representation
+        {/* HERO SECTION: Ticker along with Necessary Context */}
+        <section className="border-2 border-black p-5 sm:p-7 mb-7 bg-white">
+          <div className="flex items-center justify-between gap-2 border-b border-black pb-3 mb-4">
+            <div className="flex items-center gap-2">
+              <span className="inline-block w-2.5 h-2.5 rounded-full bg-black animate-ping"></span>
+              <span className="text-[11px] sm:text-xs uppercase tracking-wider font-bold text-black font-mono">
+                RRCE Student Representation • Mysore Road
+              </span>
+            </div>
+            <span className="text-[11px] font-mono text-gray-500">
+              To: Principal Dr. R. Balakrishna
+            </span>
           </div>
-          <p className="text-xs uppercase tracking-wider font-semibold text-gray-600 mb-1">
-            RajaRajeswari College of Engineering (RRCE), Bengaluru
-          </p>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-black leading-snug">
-            Student Petition: Convocation Gown Fee & Alumni Fee Transparency
-          </h1>
-          <p className="text-[11px] sm:text-xs text-gray-500 mt-2 font-mono">
-            Date: {new Date().toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })} • To: College Administration & Principal
-          </p>
-        </header>
 
-        {/* Mobile-Friendly Live Signature Ticker */}
-        <section className="border-2 border-black p-4 sm:p-5 mb-6 bg-gray-50">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <h1 className="text-xl sm:text-2xl font-extrabold text-black leading-snug mb-3">
+            Stop Mandatory ₹1,000 Gown Fee & Demand Transparency for Alumni Association Funds
+          </h1>
+
+          <p className="text-xs sm:text-sm text-gray-700 leading-relaxed mb-6">
+            Students at RajaRajeswari College of Engineering (RRCE) are being asked to pay a mandatory <strong>₹1,000</strong> for a convocation gown that will only be used for 1–2 hours during photos. Having already paid alumni fees with zero breakdown or accounting, we respectfully appeal to Principal Dr. R. Balakrishna and the college administration to make gowns optional and provide transparency on prior funds.
+          </p>
+
+          {/* Integrated Live Ticker Box */}
+          <div className="border border-black p-4 bg-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <div className="flex items-center gap-2">
-                <span className="inline-block w-2.5 h-2.5 rounded-full bg-black animate-ping"></span>
-                <span className="text-[11px] sm:text-xs uppercase tracking-wider font-bold text-gray-800">
-                  Live Signature Ticker
-                </span>
-              </div>
-              <div className="mt-1 flex items-baseline gap-2">
-                <span className="text-3xl sm:text-4xl font-extrabold font-mono text-black">
+              <span className="text-[11px] uppercase tracking-wider font-bold text-gray-600 block">
+                Live Verified Signatures
+              </span>
+              <div className="flex items-baseline gap-2 mt-0.5">
+                <span className="text-4xl sm:text-5xl font-extrabold font-mono text-black">
                   {signatureCount}
                 </span>
-                <span className="text-xs sm:text-sm text-gray-600 font-medium">
+                <span className="text-xs sm:text-sm font-semibold text-gray-600">
                   / {targetCount} Students Signed
                 </span>
               </div>
             </div>
 
-            <div className="w-full sm:w-48 text-left sm:text-right">
-              <div className="flex sm:justify-end items-center gap-2 text-xs text-gray-600 mb-1 font-mono">
-                <span>Milestone:</span>
-                <strong className="text-black font-bold">{percentage}%</strong>
+            <div className="w-full sm:w-56">
+              <div className="flex justify-between items-center text-xs font-mono text-gray-700 mb-1">
+                <span>Goal Progress:</span>
+                <strong>{percentage}%</strong>
               </div>
-              <div className="w-full h-3 border border-black bg-white p-0.5">
+              <div className="w-full h-3.5 border border-black bg-white p-0.5">
                 <div
                   className="h-full bg-black transition-all duration-500"
                   style={{ width: `${percentage}%` }}
@@ -175,62 +177,65 @@ export default function App() {
               </div>
             </div>
           </div>
+
+          {/* Hero Quick Action Buttons */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 mt-5">
+            <button
+              type="button"
+              onClick={scrollToSign}
+              className="flex-1 py-3 px-5 bg-black text-white text-xs font-bold uppercase tracking-wider hover:bg-gray-800 active:scale-95 transition text-center"
+            >
+              Sign This Petition ↓
+            </button>
+            <button
+              type="button"
+              onClick={handleShare}
+              className="py-3 px-5 border-2 border-black text-black text-xs font-bold uppercase tracking-wider hover:bg-gray-100 active:scale-95 transition text-center"
+            >
+              Share on WhatsApp 💬
+            </button>
+          </div>
         </section>
 
-        {/* Factual Statement & Explanation */}
+        {/* Concise Detail & Demands */}
         <article className="space-y-5 text-sm sm:text-base text-gray-800 leading-relaxed border-b border-gray-300 pb-7 mb-7">
           <div>
             <h2 className="text-sm sm:text-base font-bold text-black uppercase tracking-wide border-b border-gray-200 pb-1 mb-2">
-              1. The Context
+              1. The Context & Issue
             </h2>
             <p>
-              Students at RajaRajeswari College of Engineering (RRCE) are being requested to pay a mandatory fee of <strong>₹1,000</strong> for a convocation gown for the graduation ceremony.
+              Students at RajaRajeswari College of Engineering (RRCE) are being mandated to pay ₹1,000 for convocation gowns. This gown is worn for barely 1–2 hours for photography and the formal stage procession, after which students have no use for it. Charging ₹1,000 non-refundable imposes an unnecessary financial burden on students and families at the conclusion of 4 years of study.
             </p>
           </div>
 
           <div>
             <h2 className="text-sm sm:text-base font-bold text-black uppercase tracking-wide border-b border-gray-200 pb-1 mb-2">
-              2. Why Students Feel This Fee is Unnecessary
+              2. Already-Paid Alumni Association Fees
             </h2>
-            <p className="mb-2">
-              The convocation gown is worn for a brief period—approximately 1 to 2 hours—solely for the stage ceremony and photographs. After the event, students have no practical utility for it.
-            </p>
             <p>
-              Charging ₹1,000 as a non-refundable requirement places an avoidable financial burden on students at the end of four years of engineering study. In most academic institutions, convocation attire is either rented on a nominal refundable deposit basis (typically ₹150–₹200) or made voluntary.
+              Every student has already paid substantial fees under the head of <strong>Alumni Association Fees</strong> during admission and semester enrollments. No statement, itemized breakdown, or clear record of how these funds were spent has ever been shared with students. Asking for an additional ₹1,000 without explaining prior collections creates understandable concern.
             </p>
           </div>
 
           <div>
             <h2 className="text-sm sm:text-base font-bold text-black uppercase tracking-wide border-b border-gray-200 pb-1 mb-2">
-              3. Clarity Regarding Already-Paid Alumni Association Fees
-            </h2>
-            <p className="mb-2">
-              During admission and throughout our academic tenure, every student has already paid designated fees under the head of <strong>Alumni Association Fees</strong>.
-            </p>
-            <p>
-              To date, students have not received any information, itemized breakdown, or awareness of what services, programs, or resources those fees were intended for or how they have been utilized. Asking students to pay an additional ₹1,000 for graduation attire without addressing the fees already collected creates genuine confusion and concern.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-sm sm:text-base font-bold text-black uppercase tracking-wide border-b border-gray-200 pb-1 mb-2">
-              4. Our Respectful Appeal to College Administration
+              3. Our Respectful Appeal to Administration
             </h2>
             <ul className="list-disc pl-5 space-y-2 text-xs sm:text-sm">
               <li>
-                <strong>Make the Gown Fee Optional:</strong> Allow students to either rent the gown at a nominal refundable rate, borrow or arrange their own gown, or attend the ceremony in standard formal attire without compulsory deduction.
+                <strong>Make Gowns Optional:</strong> Permit students to either rent gowns on a nominal refundable deposit basis (₹150–₹200), arrange their own, or attend in formal attire.
               </li>
               <li>
-                <strong>Provide Transparency on Alumni Funds:</strong> Share a clear, simple explanation or accounting summary of the Alumni Association fees already collected so students understand how their money has been utilized.
+                <strong>Provide Fee Transparency:</strong> Publish a brief breakdown explaining where already-collected Alumni Association funds have been allocated.
               </li>
               <li>
-                <strong>Ensure Open Communication:</strong> Confirm that students can freely raise and discuss these valid financial concerns with the administration without hesitation or worry regarding academic proceedings.
+                <strong>Open Dialogue:</strong> Reassure students that raising these constructive financial queries will not affect academic proceedings.
               </li>
             </ul>
           </div>
         </article>
 
-        {/* Mobile-Friendly Sign Form Section */}
+        {/* Sign Form Section */}
         <section id="sign-section" className="border-2 border-black p-4 sm:p-6 mb-7 bg-white scroll-mt-4">
           <h2 className="text-base sm:text-lg font-bold text-black uppercase tracking-wide mb-1">
             Add Your Signature
@@ -381,31 +386,7 @@ export default function App() {
           )}
         </section>
 
-        {/* Share Section */}
-        <section className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-4 border border-gray-300 bg-gray-50 mb-8">
-          <div>
-            <p className="text-xs font-bold text-black">Share with RRCE Classmates</p>
-            <p className="text-[11px] text-gray-500">Every verified signature helps present our collective voice.</p>
-          </div>
-          <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={handleShare}
-              className="flex-1 sm:flex-none px-4 py-2.5 bg-black text-white text-xs font-semibold hover:bg-gray-800 text-center"
-            >
-              Share on WhatsApp
-            </button>
-            <button
-              type="button"
-              onClick={handleCopy}
-              className="px-3 py-2.5 border border-black text-black text-xs font-semibold hover:bg-white text-center"
-            >
-              {copied ? 'Copied' : 'Copy Link'}
-            </button>
-          </div>
-        </section>
-
-        {/* Signatures List */}
+        {/* Recent Signatures List */}
         <section className="border-t-2 border-black pt-5">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm sm:text-base font-bold text-black uppercase tracking-wide">
@@ -443,8 +424,8 @@ export default function App() {
         </section>
 
         {/* Footer */}
-        <footer className="mt-10 pt-5 border-t border-gray-200 text-center text-[11px] text-gray-400 font-mono">
-          RRCE Student Representation • Prepared for submission to College Authorities
+        <footer className="mt-10 pt-5 border-t border-gray-200 text-center text-[11px] text-gray-500 font-mono">
+          RRCE Student Representation • Prepared for submission to Principal Dr. R. Balakrishna & RRCE College Administration
         </footer>
 
       </div>

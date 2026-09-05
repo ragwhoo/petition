@@ -11,7 +11,7 @@ This platform mobilizes students to oppose the mandatory **₹1,000 Convocation 
 - **🔴 Animated Live Signature Ticker**: Real-time counter and live event ticker displaying signatures as they come in, progress towards the 500-student milestone, and active department alerts.
 - **🔒 Safe & Anonymous USN Verification**: Students can sign anonymously to protect against attendance or internal mark retaliation. USNs (`1RR21...`) are verified to prevent duplicate signatures and maintain credibility while masking public identities as `1RR21CS***`.
 - **💰 Financial Reality Check & Calculator**: Interactive batch calculator showing the math behind RRCE's ₹1,000 non-refundable charge vs. standard ₹150–₹250 rental deposits across VTU colleges.
-- **📜 Formal Letter to Principal & VTU**: Generates a formal, printable representation letter addressed to Principal Dr. J. Amutharaj and the VTU Grievance Cell with live signature counts.
+- **📜 Formal Letter to Principal & VTU**: Generates a formal, printable representation letter addressed to Principal Dr. R. Balakrishna and the VTU Grievance Cell with live signature counts.
 - **📱 1-Click WhatsApp Mobilization**: Pre-drafted WhatsApp broadcast message ready to send directly to RRCE class and section groups.
 - **📢 Multi-Petition Support**: Students can raise other campus grievances (canteen pricing, placement fees, lab equipment).
 
