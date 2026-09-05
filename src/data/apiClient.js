@@ -2,7 +2,7 @@
 // This guarantees that the site works seamlessly locally, on Vercel serverless, and even offline!
 import { initialPetitions } from '../../server/data/defaultPetitions.js';
 
-const STORAGE_KEY = 'rrce_petitions_store_v1';
+const STORAGE_KEY = 'rrce_petitions_clean_v2';
 const USER_SIGNATURES_KEY = 'rrce_user_signed_usns';
 
 // Initialize local storage if needed

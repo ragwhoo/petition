@@ -20,8 +20,7 @@ export default function App() {
   const [petition, setPetition] = useState(null);
   const [loading, setLoading] = useState(true);
   const [signed, setSigned] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [displayCount, setDisplayCount] = useState(1); // Starts at 0001
+  const [displayCount, setDisplayCount] = useState(0);
   const [isNumberPulsing, setIsNumberPulsing] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -63,17 +62,16 @@ export default function App() {
     return () => clearInterval(timer);
   }, []);
 
-  // Smooth live tick-up animation starting from 0001
+  // Smooth live tick-up animation
   useEffect(() => {
-    if (!petition?.signatures?.length) return;
-    const target = petition.signatures.length;
-    if (target <= 1) {
-      setDisplayCount(1);
+    const target = petition?.signatures?.length || 0;
+    if (target === 0) {
+      setDisplayCount(0);
       return;
     }
 
-    let start = 1;
-    const duration = 1200; // 1.2s smooth count-up
+    let start = 0;
+    const duration = 1000; // 1s smooth count-up
     const startTime = performance.now();
 
     const animate = (now) => {
